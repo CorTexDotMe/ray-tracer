@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Hittable.h"
+#include "objects/Hittable.h"
 
 
 class Scene 

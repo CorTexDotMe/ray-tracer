@@ -1,9 +1,9 @@
 #include "Camera.h"
-#include "vec3.h"
-#include "ray.h"
-#include "Sphere.h"
+#include "utils/vec3.h"
+#include "utils/ray.h"
+#include "objects/Sphere.h"
 #include "Scene.h"
-#include "Materials.h"
+#include "objects/Materials.h"
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -89,7 +89,7 @@ int main()
 	double aperture = 0.0;
 	double distanceToFocus = (lookFrom - lookAt).length();
 
-	Camera cam(lookFrom, lookAt, vectorUp, 90, aspectRatio, aperture, distanceToFocus);
+	Camera cam(lookFrom, lookAt, vectorUp, 40, aspectRatio, aperture, distanceToFocus);
 
 	
 	Scene world;
@@ -201,7 +201,9 @@ int main()
 		}
 	}
 	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::minutes>(stop - start);
-	std::cout << "Done in: " << duration.count() << " minutes" << std::endl;
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	std::cout << "Done in: " << duration.count() << " miliseconds" << std::endl
+			  << duration.count() / 1000.0 << " seconds" << std::endl
+		      << duration.count() / 60000.0 << " minutes" << std::endl;
 	file.close();
 }

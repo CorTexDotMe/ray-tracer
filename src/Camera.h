@@ -2,8 +2,8 @@
 #define _USE_MATH_DEFINES
 
 #include <cmath>
-#include "vec3.h"
-#include "ray.h"
+#include "utils/vec3.h"
+#include "utils/ray.h"
 
 class Camera {
 

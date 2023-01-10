@@ -1,5 +1,5 @@
 #pragma once
-#include "ray.h"
+#include "utils/ray.h"
 #include "Hittable.h"
 #include <cmath>
 
