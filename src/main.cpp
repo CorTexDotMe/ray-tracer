@@ -94,7 +94,8 @@ int main()
 
 	 
 	Scene world;
-	auto groundMaterial = std::make_shared<Matte>(color(0.6, 0.6, 0.5));
+	auto checker = std::make_shared<Checker>(color(0.6, 0.6, 0.5), color(0.0, 0.0, 0.0));
+	auto groundMaterial = std::make_shared<Matte>(checker);
 	world.add(std::make_shared<Sphere>(vec3(0.0, -500, 0.0), 500.0, groundMaterial));
 
 	
