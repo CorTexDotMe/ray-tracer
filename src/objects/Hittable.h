@@ -9,6 +9,8 @@ struct hitRecord
 	vec3 normal;
 	std::shared_ptr<Material> materialPtr;
 	double t;
+	double u;
+	double v;
 	bool frontFace;
 
 	void setFaceOfNormal(const ray& r, const vec3 outNormal)

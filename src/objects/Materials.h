@@ -2,6 +2,7 @@
 #include "utils/ray.h"
 #include "Hittable.h"
 #include <cmath>
+#include "Textures.h"
 
 struct hitRecord;
 
@@ -14,7 +15,8 @@ public:
 class Matte : public Material
 {
 public:
-	Matte(const color& a) : albedo(a) {}
+	Matte(const color& color) : albedo(std::make_shared<SolidColor>(color)) {}
+	Matte(std::shared_ptr<Texture> texture) : albedo(texture) {}
 
 	virtual bool scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scattered) const override
 	{
@@ -24,11 +26,11 @@ public:
 			scatterDirection = record.normal;
 
 		scattered = ray(record.point, scatterDirection);
-		attenuation = albedo;
+		attenuation = albedo->value(record.u, record.v, record.point);
 		return true;
 	}
 private:
-	color albedo;
+	std::shared_ptr<Texture> albedo;
 };
 
 class Metal : public Material {
