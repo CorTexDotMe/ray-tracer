@@ -86,23 +86,27 @@ int main()
 	vec3 lookFrom(0, 3, 8);
 	vec3 lookAt(0, 0, -3);
 	vec3 vectorUp(0, 1, 0);
+	double verticalFOV = 40;
 	double aperture = 0.0;
 	double distanceToFocus = (lookFrom - lookAt).length();
 
-	Camera cam(lookFrom, lookAt, vectorUp, 40, aspectRatio, aperture, distanceToFocus);
+	Camera cam(lookFrom, lookAt, vectorUp, verticalFOV, aspectRatio, aperture, distanceToFocus);
 
-	
+	 
 	Scene world;
 	auto groundMaterial = std::make_shared<Matte>(color(0.6, 0.6, 0.5));
 	world.add(std::make_shared<Sphere>(vec3(0.0, -500, 0.0), 500.0, groundMaterial));
 
+	
 	auto metalMaterial = std::make_shared<Metal>(color(0.7, 0.6, 0.6), 0.0);
 	world.add(std::make_shared<Sphere>(vec3(2.0, 1, 0.0), 1, metalMaterial));
 	auto matteMaterial = std::make_shared<Matte>(color(0.9, 0.3, 0.3));
 	world.add(std::make_shared<Sphere>(vec3(0.0, 1, 0.0), 1, matteMaterial));
 	auto refractMaterial = std::make_shared<Dielectric>(1.5);
 	world.add(std::make_shared<Sphere>(vec3(-2.0, 1, 0.0), 1, refractMaterial));
+	
 
+	/*
 	for (double z = 1; z < 2; z += 0.2)
 	{
 		addRandomShere(world, vec3(randomDouble(-5, -3), 0.2, z));
@@ -110,70 +114,9 @@ int main()
 		addRandomShere(world, vec3(randomDouble(0, 2), 0.2, z));
 		addRandomShere(world, vec3(randomDouble(2, 4), 0.2, z));
 	}
-	
-
-	/*
-	Scene world;
-	auto materialGround = std::make_shared<Matte>(color(0.8, 0.8, 0.0));
-	auto materialCenter = std::make_shared<Matte>(color(0.1, 0.2, 0.5));
-	auto materialLeft = std::make_shared<Dielectric>(1.5);
-	auto materialRight = std::make_shared<Metal>(color(0.8, 0.6, 0.2), 0.0);
-	auto materialAway = std::make_shared<Metal>(color(0.8, 0.6, 0.2), 0.5);
-
-	world.add(std::make_shared<Sphere>(vec3( 0.0, -100.5, -1.0), 100.0, materialGround));
-	world.add(std::make_shared<Sphere>(vec3( 0.0,    0.0, -1.0),   0.5, materialCenter));
-	world.add(std::make_shared<Sphere>(vec3(-1.0,    0.0, -1.0),   0.5, materialLeft));
-	world.add(std::make_shared<Sphere>(vec3(-1.0,    0.0, -1.0), -0.45, materialLeft));
-	world.add(std::make_shared<Sphere>(vec3( 1.0,    0.0, -1.0),   0.5, materialRight));
-	world.add(std::make_shared<Sphere>(vec3(0.0, 0.0, -2.5), 0.5, materialAway));
 	*/
 
-
-	/*
-	for(int x = -10; x < 10; x+=2)
-		for (int y = -10; y < 10; y+=2)
-		{
-			vec3 sphereCenter(x * 0.7 * randomDouble(), 0.4, y * 0.7 * randomDouble());
-			double randomForMaterial = randomDouble(0, 30);
-
-			if (randomForMaterial < 10)
-			{
-				color albedo = randomVector();
-				auto matteMaterial = std::make_shared<Matte>(albedo);
-				world.add(std::make_shared<Sphere>(sphereCenter, 0.2, matteMaterial));
-			}
-			else if (randomForMaterial < 20)
-			{
-				color albedo = randomVector();
-				double fuzz = randomDouble();
-				auto metalMaterial = std::make_shared<Metal>(albedo, fuzz);
-				world.add(std::make_shared<Sphere>(sphereCenter, 0.2, metalMaterial));
-			}
-			else
-			{
-				auto dielectricMaterial = std::make_shared<Dielectric>(1.5);
-				world.add(std::make_shared<Sphere>(sphereCenter, 0.2, dielectricMaterial));
-
-			}
-		}
-			
-	auto groundMaterial = std::make_shared<Matte>(color(0.6, 0.6, 0.4));
-	world.add(std::make_shared<Sphere>(vec3(0.0, -500, 0.0), 500.0, groundMaterial));
-
-	auto dielectricMaterial = std::make_shared<Dielectric>(1.5);
-	world.add(std::make_shared<Sphere>(vec3(-3, 1.5, 1.0), 1.5, dielectricMaterial));
-
-	auto metalMaterial = std::make_shared<Metal>(color(0.7, 0.7, 0.6), 0.0);
-	world.add(std::make_shared<Sphere>(vec3(0, 1.5, 0.0), 1.5, metalMaterial));
-
-	auto matteMaterial = std::make_shared<Matte>(color(0.9, 0.9, 0.3));
-	world.add(std::make_shared<Sphere>(vec3(3.0, 1.5, -1.0), 1.5, matteMaterial));
-
-	*/
-
-	
-
-	
+		
 
 
 
