@@ -5,42 +5,33 @@
 
 class vec3
 {
-private:
-	double _x, _y, _z;
-
 public:
-	vec3(): _x(0), _y(0), _z(0) {}
-	vec3(double x, double y, double z): _x(x), _y(y), _z(z) {}
+    double x, y, z;
 
-    const double x() const { return _x; }
-    const double y() const { return _y; }
-    const double z() const { return _z; }
+	vec3(): x(0), y(0), z(0) {}
+	vec3(double x, double y, double z): x(x), y(y), z(z) {}
 
-    double x() { return _x; }
-    double y() { return _y; }
-    double z() { return _z; }
+    const double r() const { return x; }
+    const double g() const { return y; }
+    const double b() const { return z; }
 
-    const double r() const { return _x; }
-    const double g() const { return _y; }
-    const double b() const { return _z; }
+    double r() { return x; }
+    double g() { return y; }
+    double b() { return z; }
 
-    double r() { return _x; }
-    double g() { return _y; }
-    double b() { return _z; }
-
-    vec3 operator-() const { return vec3(-_x, -_y, -_z); }
+    vec3 operator-() const { return vec3(-x, -y, -z); }
 
     vec3& operator+=(const vec3& v) {
-        _x += v.x();
-        _y += v.y();
-        _z += v.z();
+        x += v.x;
+        y += v.y;
+        z += v.z;
         return *this;
     }
 
     vec3& operator*=(const double t) {
-        _x *= t;
-        _y *= t;
-        _z *= t;
+        x *= t;
+        y *= t;
+        z *= t;
         return *this;
     }
 
@@ -53,42 +44,42 @@ public:
     }
 
     double lengthSquared() const {
-        return _x * _x + _y * _y + _z * _z;
+        return x * x + y * y + z * z;
     }
 
     bool nearZero() const 
     {
         const double zeroThreshold = 1e-8;
         return
-            fabs(_x) < zeroThreshold &&
-            fabs(_y) < zeroThreshold &&
-            fabs(_z) < zeroThreshold;
+            fabs(x) < zeroThreshold &&
+            fabs(y) < zeroThreshold &&
+            fabs(z) < zeroThreshold;
     }
 };
 
 
 std::ostream& operator<<(std::ostream& out, const vec3& v) {
-    return out << v.x() << ' ' << v.y() << ' ' << v.z();
+    return out << v.x << ' ' << v.y << ' ' << v.z;
 }
 
 vec3 operator+(const vec3 u, const vec3 v) {
-    return vec3(u.x() + v.x(), u.y() + v.y(), u.z() + v.z());
+    return vec3(u.x + v.x, u.y + v.y, u.z + v.z);
 }
 
 vec3 operator+(const vec3 u, double x) {
-    return vec3(u.x() + x, u.y() + x, u.z() + x);
+    return vec3(u.x + x, u.y + x, u.z + x);
 }
 
 vec3 operator-(const vec3 u, const vec3 v) {
-    return vec3(u.x() - v.x(), u.y() - v.y(), u.z() - v.z());
+    return vec3(u.x - v.x, u.y - v.y, u.z - v.z);
 }
 
 vec3 operator*(const vec3 u, const vec3 v) {
-    return vec3(u.x() * v.x(), u.y() * v.y(), u.z() * v.z());
+    return vec3(u.x * v.x, u.y * v.y, u.z * v.z);
 }
 
 vec3 operator*(double t, const vec3 v) {
-    return vec3(t * v.x(), t * v.y(), t * v.z());
+    return vec3(t * v.x, t * v.y, t * v.z);
 }
 
 vec3 operator*(const vec3 v, double t) {
@@ -100,15 +91,15 @@ vec3 operator/(vec3 v, double t) {
 }
 
 double dot(const vec3& u, const vec3& v) {
-    return u.x() * v.x()
-        + u.y() * v.y()
-        + u.z() * v.z();
+    return u.x * v.x
+        + u.y * v.y
+        + u.z * v.z;
 }
 
 vec3 cross(const vec3& u, const vec3& v) {
-    return vec3(u.y() * v.z() - u.z() * v.y(),
-        u.z() * v.x() - u.x() * v.z(),
-        u.x() * v.y() - u.y() * v.x());
+    return vec3(u.y * v.z - u.z * v.y,
+        u.z * v.x - u.x * v.z,
+        u.x * v.y - u.y * v.x);
 }
 
 vec3 unitVector(vec3 v) {
