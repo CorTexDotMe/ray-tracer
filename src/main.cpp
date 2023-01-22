@@ -92,19 +92,20 @@ int main()
 
 	Camera cam(lookFrom, lookAt, vectorUp, verticalFOV, aspectRatio, aperture, distanceToFocus);
 
-	 
+	
 	Scene world;
 	auto checker = std::make_shared<Checker>(color(0.6, 0.6, 0.5), color(0.0, 0.0, 0.0));
 	auto groundMaterial = std::make_shared<Matte>(checker);
-	world.add(std::make_shared<Sphere>(vec3(0.0, -500, 0.0), 500.0, groundMaterial));
+	world.add(std::make_shared<Sphere>(vec3(0.0, -100, 0.0), 100.0, groundMaterial));
 
 	
 	auto metalMaterial = std::make_shared<Metal>(color(0.7, 0.6, 0.6), 0.0);
-	world.add(std::make_shared<Sphere>(vec3(2.0, 1, 0.0), 1, metalMaterial));
-	auto matteMaterial = std::make_shared<Matte>(color(0.9, 0.3, 0.3));
+	//world.add(std::make_shared<Sphere>(vec3(2.0, 1, 0.0), 1, metalMaterial));
+	//auto matteMaterial = std::make_shared<Matte>(color(0.9, 0.3, 0.3));
+	auto matteMaterial = std::make_shared<Matte>(std::make_shared<Image>("resources/textures/jupiter.jpg"));
 	world.add(std::make_shared<Sphere>(vec3(0.0, 1, 0.0), 1, matteMaterial));
 	auto refractMaterial = std::make_shared<Dielectric>(1.5);
-	world.add(std::make_shared<Sphere>(vec3(-2.0, 1, 0.0), 1, refractMaterial));
+	//world.add(std::make_shared<Sphere>(vec3(-2.0, 1, 0.0), 1, refractMaterial));
 	
 
 	/*
