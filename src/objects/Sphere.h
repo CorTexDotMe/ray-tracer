@@ -23,8 +23,8 @@ private:
 		//angle around Y-axis. From -x to +z to +x to -z to -x
 		double phi = atan2(-point.z, point.x) + M_PI;
 
-		u = phi / M_PI;
-		v = theta / 2 * M_PI;
+		u = phi / (2 * M_PI);
+		v = theta / M_PI;
 	}
 };
 
