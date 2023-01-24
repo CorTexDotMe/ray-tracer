@@ -9,6 +9,8 @@ struct hitRecord;
 class Material
 {
 public:
+	
+	virtual color emitted(const double u, const double v, const vec3& point) const { return color(0, 0, 0); }
 	virtual bool scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scattered) const = 0;
 };
 
@@ -18,7 +20,7 @@ public:
 	Matte(const color& color) : albedo(std::make_shared<SolidColor>(color)) {}
 	Matte(std::shared_ptr<Texture> texture) : albedo(texture) {}
 
-	virtual bool scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scattered) const override
+	bool scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scattered) const override
 	{
 		vec3 scatterDirection = record.normal + randomInUnitSphere();
 
@@ -37,7 +39,7 @@ class Metal : public Material {
 public:
 	Metal(const color& a, double f = 0) : albedo(a), fuzz(f < 1 ? f : 1) {}
 
-	virtual bool scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scattered) const override
+	bool scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scattered) const override
 	{
 		vec3 reflected = reflect(unitVector(inputRay.direction()), record.normal);
 		scattered = ray(record.point, reflected + fuzz * randomInUnitSphere());
@@ -55,7 +57,7 @@ class Dielectric : public Material
 public:
 	Dielectric(double indexOfRefract): indexOfRefraction(indexOfRefract) {}
 
-	virtual bool scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scattered) const override
+	bool scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scattered) const override
 	{
 		attenuation = color(1.0, 1.0, 1.0);
 		double refractionRatio = record.frontFace ? (1.0 / indexOfRefraction) : indexOfRefraction;
@@ -85,4 +87,23 @@ private:
 		r0 = r0 * r0;
 		return r0 + (1 - r0) * pow((1 - cosine), 5);
 	}
+};
+
+class Light : public Material
+{
+public:
+	Light(color color):albedo(std::make_shared<SolidColor>(color)) {}
+
+	bool scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scatterd) const override
+	{
+		return false;
+	}
+
+	color emitted(const double u, const double v, const vec3& point) const override
+	{
+		return albedo->value(u, v, point);
+	}
+
+private:
+	std::shared_ptr<Texture> albedo;
 };

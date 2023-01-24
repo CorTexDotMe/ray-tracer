@@ -37,13 +37,15 @@ color traceRay(Scene& scene, const ray& r, int depth)
 	{
 		ray scattered;
 		color attenualtion;
+		color emitted = record.materialPtr->emitted(record.u, record.v, record.point);
 		if(record.materialPtr->scatter(r, record, attenualtion, scattered))
-			return attenualtion * traceRay(scene, scattered, depth - 1);
-		return color(0, 0, 0);
+			return emitted + attenualtion * traceRay(scene, scattered, depth - 1);
+		return emitted;
 	}
 	
 
-	return color(0.5, 0.7, 1.0); // background color
+	//return color(0.5, 0.7, 1.0); // background color
+	return color(0.0, 0.0, 0.0); // background color
 }
 
 void addRandomShere(Scene& world, vec3 sphereCenter)
@@ -101,6 +103,7 @@ int main()
 	
 	auto metalMaterial = std::make_shared<Metal>(color(0.7, 0.6, 0.6), 0.0);
 	//world.add(std::make_shared<Sphere>(vec3(2.0, 1, 0.0), 1, metalMaterial));
+	world.add(std::make_shared<Sphere>(vec3(2.0, 5, 0.0), 1, std::make_shared<Light>(color(20, 20, 20))));
 	//auto matteMaterial = std::make_shared<Matte>(color(0.9, 0.3, 0.3));
 	auto matteMaterial = std::make_shared<Matte>(std::make_shared<Image>("resources/textures/jupiter.jpg"));
 	world.add(std::make_shared<Sphere>(vec3(0.0, 1, 0.0), 1, matteMaterial));
