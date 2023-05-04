@@ -1,4 +1,7 @@
 #pragma once
+
+#define _USE_MATH_DEFINES
+
 #include <cmath>
 #include <iostream>
 #include "utils.h"
@@ -58,63 +61,63 @@ public:
 };
 
 
-std::ostream& operator<<(std::ostream& out, const vec3& v) {
+inline std::ostream& operator<<(std::ostream& out, const vec3& v) {
     return out << v.x << ' ' << v.y << ' ' << v.z;
 }
 
-vec3 operator+(const vec3 u, const vec3 v) {
+inline vec3 operator+(const vec3 u, const vec3 v) {
     return vec3(u.x + v.x, u.y + v.y, u.z + v.z);
 }
 
-vec3 operator+(const vec3 u, double x) {
+inline vec3 operator+(const vec3 u, double x) {
     return vec3(u.x + x, u.y + x, u.z + x);
 }
 
-vec3 operator-(const vec3 u, const vec3 v) {
+inline vec3 operator-(const vec3 u, const vec3 v) {
     return vec3(u.x - v.x, u.y - v.y, u.z - v.z);
 }
 
-vec3 operator*(const vec3 u, const vec3 v) {
+inline vec3 operator*(const vec3 u, const vec3 v) {
     return vec3(u.x * v.x, u.y * v.y, u.z * v.z);
 }
 
-vec3 operator*(double t, const vec3 v) {
+inline vec3 operator*(double t, const vec3 v) {
     return vec3(t * v.x, t * v.y, t * v.z);
 }
 
-vec3 operator*(const vec3 v, double t) {
+inline vec3 operator*(const vec3 v, double t) {
     return t * v;
 }
 
-vec3 operator/(vec3 v, double t) {
+inline vec3 operator/(vec3 v, double t) {
     return (1 / t) * v;
 }
 
-double dot(const vec3& u, const vec3& v) {
+inline double dot(const vec3& u, const vec3& v) {
     return u.x * v.x
         + u.y * v.y
         + u.z * v.z;
 }
 
-vec3 cross(const vec3& u, const vec3& v) {
+inline vec3 cross(const vec3& u, const vec3& v) {
     return vec3(u.y * v.z - u.z * v.y,
         u.z * v.x - u.x * v.z,
         u.x * v.y - u.y * v.x);
 }
 
-vec3 unitVector(vec3 v) {
+inline vec3 unitVector(vec3 v) {
     return v / v.length();
 }
 
-vec3 randomVector() {
+inline vec3 randomVector() {
     return vec3(randomDouble(), randomDouble(), randomDouble());
 }
 
-vec3 randomVector(double min, double max) {
+inline vec3 randomVector(double min, double max) {
     return vec3(randomDouble(min, max), randomDouble(min, max), randomDouble(min, max));
 }
 
-vec3 randomInUnitSphere() {
+inline vec3 randomInUnitSphere() {
     while (true)
     {
         vec3 candidate = randomVector(-1, 1);
@@ -123,12 +126,12 @@ vec3 randomInUnitSphere() {
     }
 }
 
-vec3 reflect(const vec3& v, const vec3& n)
+inline vec3 reflect(const vec3& v, const vec3& n)
 {
     return v - 2 * dot(v, n) * n;
 }
 
-vec3 refract(const vec3& inVector, const vec3& normal, double refractionRatio)
+inline vec3 refract(const vec3& inVector, const vec3& normal, double refractionRatio)
 {
     double cosTheta = fmin(dot(-inVector, normal), 1.0);
     vec3 refractedVectorPerpendicularPart = refractionRatio * (inVector + cosTheta * normal);
@@ -136,7 +139,7 @@ vec3 refract(const vec3& inVector, const vec3& normal, double refractionRatio)
     return refractedVectorPerpendicularPart + refractedVectorParallelPart;
 }
 
-vec3 randomInUnitDisk()
+inline vec3 randomInUnitDisk()
 {
     while (true)
     {
