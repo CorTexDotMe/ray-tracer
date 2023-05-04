@@ -1,7 +1,9 @@
 #pragma once
-#include "utils/ray.h"
 
+#include "../utils/ray.h"
+#include <memory>
 class Material;
+
 
 struct hitRecord
 {
@@ -20,8 +22,9 @@ struct hitRecord
 	}
 };
 
-class Hittable
+class IHittable
 {
 public:
+	virtual ~IHittable() {};
 	virtual bool hit(double t_min, double t_max, const ray& r, hitRecord& record) const = 0;
 };

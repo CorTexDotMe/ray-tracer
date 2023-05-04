@@ -1,13 +1,7 @@
 #pragma once
-#define _USE_MATH_DEFINES
-
-#include <cmath>
-#include "utils/vec3.h"
-#include "utils/ray.h"
+#include "../utils/ray.h"
 
 class Camera {
-
-
 public:
 	Camera(
 		vec3 lookFrom,
