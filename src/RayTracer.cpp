@@ -138,14 +138,11 @@ std::shared_ptr<Scene> RayTracer::getDefaultScene() const
 
 std::shared_ptr<Camera> RayTracer::getDefaultCamera() const
 {
-	const double aspectRatio = static_cast<double>(imageWidth) / imageHeight;
-
 	vec3 lookFrom(0, 3, 8);
 	vec3 lookAt(0, 0, -3);
 	vec3 vectorUp(0, 1, 0);
 	double verticalFOV = 40;
-	double aperture = 0.0;
-	double distanceToFocus = (lookFrom - lookAt).length();
+	double aspectRatio = static_cast<double>(imageWidth) / imageHeight;
 
-	return std::make_shared<Camera>(lookFrom, lookAt, vectorUp, verticalFOV, aspectRatio, aperture, distanceToFocus);
+	return std::make_shared<Camera>(lookFrom, lookAt, vectorUp, verticalFOV, aspectRatio);
 }
