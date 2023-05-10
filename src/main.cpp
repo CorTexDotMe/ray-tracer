@@ -119,7 +119,7 @@ int main(int, char**)
         ImGui::NewFrame();
 
         {
-            ImGui::Begin("OpenGL Texture Text");
+            ImGui::Begin("Raytraced image");
             ImGui::SetWindowSize({ 1300, 800 });
 
             updateTexture(my_image_texture, rayTracer->getImageData()->data(), rayTracer->getImageWidth(), rayTracer->getImageHeight());

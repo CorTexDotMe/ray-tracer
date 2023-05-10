@@ -141,8 +141,8 @@ std::shared_ptr<Scene> RayTracer::getDefaultScene() const
 	auto scene = std::make_shared<Scene>();
 
 	// Floor
-	auto checker = std::make_shared<Checker>(color(0.6, 0.6, 0.5), color(0.0, 0.0, 0.0));
-	auto groundMaterial = std::make_shared<Matte>(checker);
+	//auto checker = std::make_shared<Checker>(color(0.6, 0.6, 0.5), color(0.0, 0.0, 0.0));
+	auto groundMaterial = std::make_shared<Matte>(color(0.6, 0.6, 0.5));
 	scene->add(std::make_shared<Sphere>(vec3(0.0, -100, 0.0), 100.0, groundMaterial));
 	
 	//auto matteMaterial = std::make_shared<Matte>(color(0.9, 0.3, 0.3));
