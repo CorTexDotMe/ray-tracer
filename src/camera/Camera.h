@@ -21,16 +21,16 @@ public:
 		
 		horizontal = viewportWidth * horizontalDirection;
 		vertical = viewportHeight * verticalDirection;
-		lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - lookAtDirection;
+		upperLeftCorner = origin - horizontal / 2 + vertical / 2 - lookAtDirection;
 	}
 
 	ray getRay(double x, double y) const {
-		return ray(origin, lowerLeftCorner + x * horizontal + y * vertical - origin);
+		return ray(origin, upperLeftCorner + x * horizontal - y * vertical - origin);
 	}
 
 private:
 	vec3 origin;
-	vec3 lowerLeftCorner;
+	vec3 upperLeftCorner;
 	vec3 horizontal;
 	vec3 vertical;
 };

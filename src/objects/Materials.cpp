@@ -2,7 +2,7 @@
 
 bool Matte::scatter(const ray& inputRay, const hitRecord& record, color& attenuation, ray& scattered) const
 {
-	vec3 scatterDirection = record.normal + randomInUnitSphere();
+	vec3 scatterDirection = record.normal + unitVector(randomInUnitSphere());
 
 	if (scatterDirection.nearZero())
 		scatterDirection = record.normal;

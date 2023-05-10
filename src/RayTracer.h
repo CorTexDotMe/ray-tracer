@@ -11,11 +11,14 @@
 #include <chrono>
 #include <cfloat>
 
+#include <execution>
 
 class RayTracer
 {
 public:
-	RayTracer() :
+	RayTracer(int imageWidth = 1280, int imageHeight = 720) :
+		imageWidth(imageWidth), imageHeight(imageHeight),
+		imageData(std::make_shared<std::vector<unsigned char>>(imageWidth * imageHeight * 4, 128)),
 		scene(getDefaultScene()),
 		camera(getDefaultCamera()),
 		samplesPerPixel(100), rayMaxDepth(50) {}
@@ -24,14 +27,27 @@ public:
 		std::shared_ptr<Scene> worldScene,
 		std::shared_ptr<Camera> cameraForScene,
 		int amountOfSamplesPerPixel = 100,
-		int rayMaxAmountOfReflections = 50
+		int rayMaxAmountOfReflections = 50,
+		int imageWidth = 1280,
+		int imageHeight = 720
 	) :
+		imageWidth(imageWidth), imageHeight(imageHeight),
+		imageData(std::make_shared<std::vector<unsigned char>>(imageWidth* imageHeight * 4, 128)),
 		scene(worldScene),
 		camera(cameraForScene),
-		samplesPerPixel(amountOfSamplesPerPixel), rayMaxDepth(rayMaxAmountOfReflections) {}
+		samplesPerPixel(amountOfSamplesPerPixel), rayMaxDepth(rayMaxAmountOfReflections)
+
+	{}
 
 	void run(bool showProgressPercentage = true) const;
-	void runWithDebugInfo() const;
+	void runWithTimeInfo(bool showProgressPercentage = true) const;
+	void runParallel() const;
+	void runParallelWithTimeInfo() const;
+
+	std::shared_ptr<std::vector<unsigned char>> getImageData() const { return imageData; }
+
+	int getImageWidth() const { return imageWidth; }
+	int getImageHeight() const { return imageHeight; }
 
 	int getRayMaxDepth() const { return rayMaxDepth; }
 	void setRayMaxDepth(int rayMaxAmountOfReflections) { rayMaxDepth = rayMaxAmountOfReflections; }
@@ -40,9 +56,10 @@ public:
 	void setSamplesPerPixel(int amountOfSamplesPerPixel) { samplesPerPixel = amountOfSamplesPerPixel; }
 
 private:
-	const int imageWidth = 1280;
-	const int imageHeight = 720;
+	int imageWidth;
+	int imageHeight;
 
+	std::shared_ptr<std::vector<unsigned char>> imageData;
 	std::shared_ptr<Scene> scene;
 	std::shared_ptr<Camera> camera;
 	int samplesPerPixel;
@@ -52,5 +69,5 @@ private:
 	std::shared_ptr<Camera> getDefaultCamera() const;
 
 	color traceRay(const ray& r, int depth) const;
-	void writeColor(std::ofstream& out, const color& pixelColor, int samplesPerPixel) const;
+	void writeColor(const color& pixelColor, int samplesPerPixel, int, int, int) const;
 };
