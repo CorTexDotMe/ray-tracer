@@ -62,7 +62,7 @@ int main(int, char**)
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Ray tracing application", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1300, 800, "Ray tracing application", NULL, NULL);
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
@@ -93,12 +93,12 @@ int main(int, char**)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-
+    // Run raytracer
     RayTracer* rayTracer = new RayTracer();
-    bool started = false;
+    std::thread rayTracerThread(&RayTracer::runParallelWithTimeInfo, rayTracer);
+    rayTracerThread.detach();
 
     GLuint my_image_texture = 0;
     LoadTextureFromImage(rayTracer->getImageData()->data(), rayTracer->getImageWidth(), rayTracer->getImageHeight(), &my_image_texture);
@@ -118,26 +118,28 @@ int main(int, char**)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        {
-            ImGui::Begin("Raytraced image");
-            ImGui::SetWindowSize({ 1300, 800 });
+        // Fill the OS window with ImGui window
+        ImGuiViewport* viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(viewport->WorkPos);
+        ImGui::SetNextWindowSize(viewport->WorkSize);
+        ImGui::SetNextWindowViewport(viewport->ID);
 
-            updateTexture(my_image_texture, rayTracer->getImageData()->data(), rayTracer->getImageWidth(), rayTracer->getImageHeight());
-            ImGui::Image((void*)(intptr_t)my_image_texture, ImVec2(static_cast<float>(rayTracer->getImageWidth()), static_cast<float>(rayTracer->getImageHeight())));
-            ImGui::Text("Size = %d x %d", rayTracer->getImageWidth(), rayTracer->getImageHeight());
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+        ImGui::Begin("Raytraced image", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoResize);
+        ImGui::SetWindowSize({ 1300, 800 });
+
+        updateTexture(my_image_texture, rayTracer->getImageData()->data(), rayTracer->getImageWidth(), rayTracer->getImageHeight());
+        ImGui::Image((void*)(intptr_t)my_image_texture, ImVec2(static_cast<float>(rayTracer->getImageWidth()), static_cast<float>(rayTracer->getImageHeight())));
+        ImGui::Text("Size = %d x %d", rayTracer->getImageWidth(), rayTracer->getImageHeight());
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::End();
+        ImGui::PopStyleVar(2);
 
 
-            if (!started)
-            {
-                std::thread rayTracerThread(&RayTracer::runParallelWithTimeInfo, rayTracer);
-                rayTracerThread.detach();
-                started = true;
-            }
-        }
+        
 
-     
+
+
 
         // Rendering
         ImGui::Render();
