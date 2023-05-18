@@ -158,7 +158,7 @@ std::shared_ptr<Scene> RayTracer::getDefaultScene() const
 	scene->add(std::make_shared<Sphere>(vec3(-2.0, 1, 0.0), 1, refractMaterial));
 
 
-	
+	/*
 	for (double z = 1; z < 2; z += 0.2)
 	{
 		addRandomShere(*scene, vec3(randomDouble(-5, -3), 0.2, z));
@@ -166,6 +166,7 @@ std::shared_ptr<Scene> RayTracer::getDefaultScene() const
 		addRandomShere(*scene, vec3(randomDouble(0, 2), 0.2, z));
 		addRandomShere(*scene, vec3(randomDouble(2, 4), 0.2, z));
 	}
+	*/
 	
 	return scene;
 }
