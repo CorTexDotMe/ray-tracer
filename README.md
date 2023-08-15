@@ -45,3 +45,6 @@ All necessary dependencies are already inside the "include" folder. This is a vi
 - This project was based on a series of books by Peter Shirley, Trevor David Black, and Steve Hollasch, including
 [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html), [_Ray Tracing: The Next Week_](https://raytracing.github.io/books/RayTracingTheNextWeek.html) and [_Ray Tracing: The Rest of Your Life_](https://raytracing.github.io/books/RayTracingTheRestOfYourLife.html).
 - Project was also inspired by [Ray tracing series](https://www.youtube.com/playlist?list=PLlrATfBNZ98edc5GshdBtREv5asFW3yXl) from "The Cherno" YouTube channel.
+
+## License
+This project is licensed under the terms of the **MIT** license.
