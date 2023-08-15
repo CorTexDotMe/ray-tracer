@@ -96,8 +96,8 @@ int main(int, char**)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // Run raytracer
-    RayTracer* rayTracer = new RayTracer();
-    std::thread rayTracerThread(&RayTracer::runParallelWithTimeInfo, rayTracer);
+    std::shared_ptr<RayTracer> rayTracer = std::make_shared<RayTracer>();
+    std::thread rayTracerThread(&RayTracer::runParallelWithTimeInfo, rayTracer.get());
     rayTracerThread.detach();
 
     GLuint my_image_texture = 0;
@@ -173,7 +173,6 @@ int main(int, char**)
 
     glfwDestroyWindow(window);
     glfwTerminate();
-    delete rayTracer;
 
     return 0;
 }
