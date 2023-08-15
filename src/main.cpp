@@ -136,11 +136,6 @@ int main(int, char**)
         ImGui::PopStyleVar(1);
 
 
-        
-
-
-
-
         // Rendering
         ImGui::Render();
         int display_w, display_h;
