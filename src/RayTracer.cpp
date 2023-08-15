@@ -141,32 +141,32 @@ std::shared_ptr<Scene> RayTracer::getDefaultScene() const
 	auto scene = std::make_shared<Scene>();
 
 	// Floor
-	//auto checker = std::make_shared<Checker>(color(0.6, 0.6, 0.5), color(0.0, 0.0, 0.0));
-	auto groundMaterial = std::make_shared<Matte>(color(0.6, 0.6, 0.5));
+	auto checkerTexture = std::make_shared<Checker>(color(0.6, 0.6, 0.5), color(0.0, 0.0, 0.0));
+	auto groundMaterial = std::make_shared<Matte>(checkerTexture);
+	//auto groundMaterial = std::make_shared<Matte>(color(0.6, 0.6, 0.5));
 	scene->add(std::make_shared<Sphere>(vec3(0.0, -100, 0.0), 100.0, groundMaterial));
 	
 	//auto matteMaterial = std::make_shared<Matte>(color(0.9, 0.3, 0.3));
 	//scene->add(std::make_shared<Sphere>(vec3(-2.0, 4, 0.0), 1, std::make_shared<Light>(color(20, 20, 20))));
 
 	auto metalMaterial = std::make_shared<Metal>(color(0.7, 0.6, 0.6), 0.0);
-	scene->add(std::make_shared<Sphere>(vec3(2.0, 1, 0.0), 1, metalMaterial));
+	scene->add(std::make_shared<Sphere>(vec3(2.0, 1, -2.0), 1, metalMaterial));
 
 	auto matteMaterial = std::make_shared<Matte>(std::make_shared<Image>("resources/textures/jupiter.jpg"));
 	scene->add(std::make_shared<Sphere>(vec3(0.0, 1, 0.0), 1, matteMaterial));
 
 	auto refractMaterial = std::make_shared<Dielectric>(1.5);
-	scene->add(std::make_shared<Sphere>(vec3(-2.0, 1, 0.0), 1, refractMaterial));
+	scene->add(std::make_shared<Sphere>(vec3(-2.0, 1, 2.0), 1, refractMaterial));
 
 
-	/*
-	for (double z = 1; z < 2; z += 0.2)
+	
+	for (double z = -2; z < 2; z += 0.5)
 	{
 		addRandomShere(*scene, vec3(randomDouble(-5, -3), 0.2, z));
-		addRandomShere(*scene, vec3(randomDouble(-3, -0), 0.2, z));
-		addRandomShere(*scene, vec3(randomDouble(0, 2), 0.2, z));
-		addRandomShere(*scene, vec3(randomDouble(2, 4), 0.2, z));
+		addRandomShere(*scene, vec3(randomDouble(-2.5, 0), 0.2, z));
+		addRandomShere(*scene, vec3(randomDouble(0.5, 2), 0.2, z));
+		addRandomShere(*scene, vec3(randomDouble(2.5, 5), 0.2, z));
 	}
-	*/
 	
 	return scene;
 }
